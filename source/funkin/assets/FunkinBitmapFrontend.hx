@@ -187,22 +187,19 @@ class FunkinBitmapFrontend extends flixel.system.frontEnds.BitmapFrontEnd
 
   override public function remove(graphic:FlxGraphic):Void
   {
-    //
-    if (graphic != null && graphic.persist && FunkinAssetCache.instance.isPurgeCycleActive) return;
-    if (graphic != null && stagedFlxGraphic.permanent.get(graphic.key) == graphic) return;
+    if (graphic == null) return;
+    if (graphic.persist && FunkinAssetCache.instance.isPurgeCycleActive) return;
+    if (stagedFlxGraphic.permanent.get(graphic.key) == graphic) return;
 
-    if (graphic != null)
-    {
-      final isPermanent:Bool = stagedFlxGraphic.existsPermanent(graphic.key);
+    final isPermanent:Bool = stagedFlxGraphic.existsPermanent(graphic.key);
 
-      removeKey(graphic.key);
+    removeKey(graphic.key);
 
-      if (isPermanent) return;
+    if (isPermanent) return;
 
-      // Sometimes with raw-cached assets the graphic's key is different from the asset key, so we need to remove both. To be safe
-      // TODO: Maybe we should just override add and check through the map or something to make sure but nothing gets double cached as an assetkey..? -Moon
-      if (!graphic.isDestroyed) graphic.destroy();
-    }
+    // Sometimes with raw-cached assets the graphic's key is different from the asset key, so we need to remove both. To be safe
+    // TODO: Maybe we should just override add and check through the map or something to make sure but nothing gets double cached as an assetkey..? -Moon
+    if (!graphic.isDestroyed) graphic.destroy();
   }
 
   override public function removeByKey(key:String):Void
