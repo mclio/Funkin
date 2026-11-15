@@ -544,6 +544,8 @@ class ModListManager
     for (dependencyId in dependenciesToEnable)
     {
       var dependencyItem = disabledList.modItems.find((it) -> it.getModId() == dependencyId);
+      dependencyItem ??= enabledList.modItems.find((it) -> it.getModId() == dependencyId);
+
       if (dependencyItem != null)
       {
         enable(dependencyItem, nextInsertIndex, batchFutureCount, false);
